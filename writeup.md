@@ -18,7 +18,8 @@
 [//]: # (Image References)
 
 [image1]: ./images/dh.jpg
-[image2]: ./images/homogenous.jpg
+[image2]: ./images/homogenous_transform.jpg
+[image3]: ./images/homogenous.jpg
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -105,8 +106,11 @@ Matrix([[cos(q7), -sin(q7), 0, a6],
 ```
 
 
-A generalized matrix from base link tor gripper is showed in following image:
+A generalized homogenous transformation matrix is shown in following image: 
 ![alt text][image2]
+
+The overall way from base_link to Grapper with respect to pose (position and orientation) is shown following:
+![alt text][image3]
 
 The transformation matrix from base link to EE is derived in `IK_server.py` code line 170.
 Correction of Grabber (line 104)  and pose of Grabber (line 109) are applied in function `calculate_ee()` from line 90 on.
@@ -128,6 +132,6 @@ Here I'll talk about the code, what techniques I used, what worked and why, wher
 
 
 And just for fun, another example image:
-![alt text][image3]
+
 
 
