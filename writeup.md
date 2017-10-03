@@ -21,6 +21,7 @@
 [image2]: ./images/homogenous_transform.jpg
 [image3]: ./images/homogenous.jpg
 [image4]: ./images/wrist_center.jpg
+[image5]: ./images/sss.jpg
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -140,9 +141,20 @@ P_WC = P_EE - (0.303) * R_EE[:, 2] # EE position + offset - EE position = wrist 
 ```
 The .303 is derived from the DH table as d7, meaning the distance between x-Axis of base link and End Effector. R_EE[:, 2] is the third line of the matrix according to the formula.
 
-Derivation of the thetas:
+Derivation of the first three thetas:
 - Theta 1: The wrist center needs to be projected onto the ground plane meaning set the z-coordinate = 0 (code line 131)
-- Theta 2: 
+- Theta 2, 3: Triangle in image below is calculation base for Theta2 and Theta3. It is assumed that z of wrist center equals 0 and that we have also link 2 and 3 projected onto the ground plane. Then i can calculate by cosine law the angles (code line 122 - 133)
+
+Derivation of Theta 4 - 6:
+We are now coming to the Inverse Orientation problem. As the overall RPY (Roll, Pitch Yaw) rotation between base link and Grapper is equal to the overall product of each links i can inverse the matrix for the first three joints and multiply it with the RPY (code lines 226 - 228).
+
+Based on Euler Angles from a Rotation Matrix section in the Lesson and the walkthrough i got the Thetas 4 - 6 (code line 231 - 234)
+
+To avoid multiple solutions i used the atan2 function so that signs can be regarded and the correct quadrant can be derived.
+
+
+![alt text][image5]
+
 
 ### Project Implementation
 
