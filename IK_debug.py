@@ -61,6 +61,7 @@ def get_ee_poses(poses):
 
 	return p_x, p_y, p_z, roll, pitch, yaw
 
+
 def get_transformation_matrix(alpha, a, d, q):
 	'''
     Calculates transformation matrix with given values and returns it.
