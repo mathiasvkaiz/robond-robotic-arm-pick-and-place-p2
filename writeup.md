@@ -19,7 +19,7 @@
 
 [image1]: ./images/dh.jpg
 [image2]: ./images/homogenous.jpg
-[image3]: ./misc_images/misc2.png
+
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -115,7 +115,7 @@ Correction of Grabber (line 104)  and pose of Grabber (line 109) are applied in 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-I used the closed-form approach
+I used the closed-form approach that is much faster than a numerical approach to get the joint angles by known pose of End Effector (Grabber).
 
 
 
