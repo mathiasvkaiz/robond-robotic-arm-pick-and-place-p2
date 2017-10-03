@@ -87,7 +87,7 @@ def get_rotation_matrix(motion, angle):
     return matrix[motion]
 
 
-def calculate_wrist(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
+def calculate_ee(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
     '''
     Corrects End Effector rotation matrix with error and align the given parameters.
 
@@ -198,8 +198,8 @@ def handle_calculate_IK(req):
             ### Your IK code here 
     	    
 
-            # Calculate wrist values and correct rotation matrix of EE
-            R_EE, P_WC, theta1, theta2, theta3 = calculate_wrist(R_EE, px, py, pz, roll, pitch, yaw)
+            # Calculate ee values and correct rotation matrix of EE
+            R_EE, P_WC, theta1, theta2, theta3 = calculate_ee(R_EE, px, py, pz, roll, pitch, yaw)
 
             # Inverse kinematic rotation matrix from wraist to EE
             R_0_3 = T_0_1[0:3, 0:3] * T_1_2[0:3, 0:3] * T_2_3[0:3, 0:3]
