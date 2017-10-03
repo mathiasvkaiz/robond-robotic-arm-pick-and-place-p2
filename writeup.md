@@ -129,11 +129,20 @@ There are two conditions of whose one must be satisfied:
 Since the last three joints have an intersction point in joint 5 one of the above conditions is satisfied and therefor we have a sqherical wrist with joint 5 as it's center. This leads to an easier calculation (kunematic decoupling of the position and orientation of the end effector) by calculation the coordinates of the wrist center and then the composition of rotations to orient the end effector.
 
 As basis for the wrist center calculation i used the transformation matrix based on the end-effector pose (code line 109).
-The wrist center is calculated in line 117 based o following formula:
+The wrist center is calculated in line 117 based on following formula:
 
 ![alt text][image4]
 
 
+Looking at the code line we can see following:
+```python
+P_WC = P_EE - (0.303) * R_EE[:, 2] # EE position + offset - EE position = wrist center position
+```
+The .303 is derived from the DH table as d7, meaning the distance between x-Axis of base link and End Effector. R_EE[:, 2] is the third line of the matrix according to the formula.
+
+Derivation of the thetas:
+- Theta 1: The wrist center needs to be projected onto the ground plane meaning set the z-coordinate = 0 (code line 131)
+- Theta 2: 
 
 ### Project Implementation
 
