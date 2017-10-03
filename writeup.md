@@ -160,11 +160,20 @@ To avoid multiple solutions i used the atan2 function so that signs can be regar
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
+I used functional programming techniques and defined several methods for getting / applying matrices (transformation and rotation). These functions where placed outside the `handle_calculate_IK()` function to get some performance improvements as in this function we have a loop iterating through multipe values (poses).
 
-Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
+I also put the calculation and error correction of the End Effector rotation matrix (including the wrist center calculation and Thetas 1-3) in one function `calculate_ee()` as these are all related to forward kinematics.
+
+The definitions of the martices and dh table is placed outside the loop, as do need to be initialized only once. Inside the loop i substitue then those expressions/matrices with the received/calculated values.
+
+All inverse kinematic topics are then calculated inside the main loop.
 
 
-And just for fun, another example image:
+As calculating with matrices this can lead to enormous delays. It is clear to me, that this apporach does only lead to minimal performance gains, there could be several other methods like using other (performance optimized libraries like numpy).
+
+To get better results the focus should lie on error calcluation. By comparing the calculated position with the received ones from the pose i could do a much better error handling and therefor calculation of the expected position. 
+
+
 
 
 
