@@ -94,7 +94,7 @@ def get_rotation_matrix(motion, angle):
     return matrix[motion]
 
 
-def calculate_wrist(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
+def calculate_ee(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
 	'''
 	Corrects End Effector rotation matrix with error and align the given parameters.
 
@@ -220,12 +220,15 @@ def test_code(test_case):
 	R_EE = R_z * R_y * R_x
 
 	# Calculate wrist values and correct rotation matrix of EE
-	R_EE, P_WC, th_1, th_2, th_3 = calculate_wrist(R_EE, p_x, p_y, p_z, roll, pitch, yaw)
+	R_EE, P_WC, th_1, th_2, th_3 = calculate_ee(R_EE, p_x, p_y, p_z, roll, pitch, yaw)
 
 	# Inverse kinematic rotation matrix from wraist to EE
 	R_0_3 = T_0_1[0:3, 0:3] * T_1_2[0:3, 0:3] * T_2_3[0:3, 0:3]
 	R_0_3 = R_0_3.evalf(subs={q1: th_1, q2: th_2, q3: th_3})
-	R_3_6 = R_0_3.inv("LU") * R_EE
+	R_3_6 = Transpose(R_0_3) * R_EE
+
+	#print R_0_3.T
+	#print Transpose(R_0_3)
 
 	# Angles from rotation matrix
 	th_4 = atan2(R_3_6[2, 2], -R_3_6[0, 2])    

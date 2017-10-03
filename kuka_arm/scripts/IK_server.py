@@ -204,7 +204,7 @@ def handle_calculate_IK(req):
             # Inverse kinematic rotation matrix from wraist to EE
             R_0_3 = T_0_1[0:3, 0:3] * T_1_2[0:3, 0:3] * T_2_3[0:3, 0:3]
             R_0_3 = R_0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
-            R_3_6 = R_0_3.inv("LU") * R_EE
+            R_3_6 = Transpose(R_0_3) * R_EE
 
             # Angles from rotation matrix
             theta4 = atan2(R_3_6[2, 2], -R_3_6[0, 2])    
