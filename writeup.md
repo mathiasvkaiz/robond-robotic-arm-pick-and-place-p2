@@ -18,7 +18,7 @@
 [//]: # (Image References)
 
 [image1]: ./images/dh.jpg
-[image2]: ./misc_images/misc3.png
+[image2]: ./images/homogenous.jpg
 [image3]: ./misc_images/misc2.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -106,18 +106,18 @@ Matrix([[cos(q7), -sin(q7), 0, a6],
 
 
 A generalized matrix from base link tor gripper is showed in following image:
-....
+![alt text][image2]
 
-
-The transformation matrix from base link to EE is derived in code line 170.
+The transformation matrix from base link to EE is derived in `IK_server.py` code line 170.
+Correction of Grabber (line 104)  and pose of Grabber (line 109) are applied in function `calculate_ee()` from line 90 on.
 
 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-And here's where you can draw out and show your math for the derivation of your theta angles. 
+I used the closed-form approach
 
-![alt text][image2]
+
 
 ### Project Implementation
 
