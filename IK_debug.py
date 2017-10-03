@@ -42,31 +42,6 @@ def deg(rad):
 	return rad * 180 / pi
 
 
-# def get_distance(pos_origin, pos_target):
-# 	''' 
-# 	Calculates distance from given original and target position and returns it.
-#     '''
-
-# 	distance = pos_target - pos_origin
-
-# 	return sqrt((distance.T * distance)[0])
-
-
-# def get_dh_table():
-# 	'''
-# 	Getter for DH table
-# 	'''
-
-# 	table = {alpha0:        0, a0:      0, d1:  0.75, q1: 	 	    q1,
-#       	 	 alpha1: rad(-90), a1:   0.35, d2:     0, q2: q2 - rad(90),
-#      	 	 alpha2:        0, a2:   1.25, d3:     0, q3: 		    q3,
-#      	 	 alpha3: rad(-90), a3: -0.054, d4:  1.50, q4: 		    q4,
-#          	 alpha4: rad( 90), a4:      0, d5:     0, q5: 		    q5,
-#          	 alpha5: rad(-90), a5:      0, d6:     0, q6: 		    q6,
-#          	 alpha6:        0, a6:      0, d7: 0.303, q7:  			 0}
-
-#  	return table
-
 def get_ee_poses(poses):
 	'''
 	Gettr for extract end-effector position and orientation from request.
