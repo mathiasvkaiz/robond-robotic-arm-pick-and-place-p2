@@ -20,6 +20,7 @@
 [image1]: ./images/dh.jpg
 [image2]: ./images/homogenous_transform.jpg
 [image3]: ./images/homogenous.jpg
+[image4]: ./images/wrist_center.jpg
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -106,10 +107,10 @@ Matrix([[cos(q7), -sin(q7), 0, a6],
 ```
 
 
-A generalized homogenous transformation matrix is shown in following image: 
+A generalized homogenous transformation matrix between neighbor links is shown in following image: 
 ![alt text][image2]
 
-The overall way from base_link to Grapper with respect to pose (position and orientation) is shown following:
+The overall matrix from base_link to Grapper with respect to pose (position and orientation) is shown following:
 ![alt text][image3]
 
 The transformation matrix from base link to EE is derived in `IK_server.py` code line 170.
@@ -119,7 +120,18 @@ Correction of Grabber (line 104)  and pose of Grabber (line 109) are applied in 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-I used the closed-form approach that is much faster than a numerical approach to get the joint angles by known pose of End Effector (Grabber).
+I used the closed-form approach that is much faster than a numerical approach to get the joint angles by known pose of End Effector (Grabber). But it has it's limitations that only on cetrain cases this appraoch can be used.
+
+There are two conditions of whose one must be satisfied:
+- Three neighboring joint axes intersect at a single point
+- Three neighboring joint axes are parallel (which is technically a special case of 1, since parallel lines intersect at infinity)
+
+Since the last three joints have an intersction point in joint 5 one of the above conditions is satisfied and therefor we have a sqherical wrist with joint 5 as it's center. This leads to an easier calculation (kunematic decoupling of the position and orientation of the end effector) by calculation the coordinates of the wrist center and then the composition of rotations to orient the end effector.
+
+As basis for the wrist center calculation i used the transformation matrix based on the end-effector pose (code line 109).
+The wrist center is calculated in line 117 based o following formula:
+
+![alt text][image4]
 
 
 
