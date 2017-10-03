@@ -17,7 +17,7 @@
 
 [//]: # (Image References)
 
-[image1]: ./misc_images/misc1.png
+[image1]: ./images/dh.jpg
 [image2]: ./misc_images/misc3.png
 [image3]: ./misc_images/misc2.png
 
@@ -34,7 +34,17 @@ You're reading it!
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-Here is an example of how to include an image in your writeup.
+Based on KuKa Forward Kinematics i derived following Scheme of the setup and relevant variables.
+
+In combination with the `kr210.urdf.xacro` file, especially the joints part i could derive following DH table. in this section the joints relative to their origin are defined, so i can derive relevant `a` and `d`.
+
+It is important to note:
+- alpha is the twist angles of the z-Axis
+- a is the distance between the z- Axis
+- d is the offset between the x-Axis
+- q is the joint vraible (theta)
+
+This is related to joint `i` with respect to joint `i-1`
 
 ![alt text][image1]
 
@@ -42,13 +52,13 @@ Here is an example of how to include an image in your writeup.
 
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
-0->1 | 0 | 0 | L1 | qi
-1->2 | - pi/2 | L2 | 0 | -pi/2 + q2
-2->3 | 0 | 0 | 0 | 0
-3->4 |  0 | 0 | 0 | 0
-4->5 | 0 | 0 | 0 | 0
-5->6 | 0 | 0 | 0 | 0
-6->EE | 0 | 0 | 0 | 0
+0->1 | 0 | 0 | 0.75 | q1
+1->2 | - pi/2 | 0.35 | 0 | -pi/2 + q2
+2->3 | 0 | 1.25 | 0 | q3
+3->4 |  - pi/2 | -0.054 | 1.5 | q4
+4->5 | pi/2 | 0 | 0 | q5
+5->6 | - pi/2 | 0 | 0 | q6
+6->EE | 0 | 0 | 0.303 | 0
 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
