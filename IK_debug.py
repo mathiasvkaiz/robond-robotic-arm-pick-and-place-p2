@@ -235,6 +235,11 @@ def test_code(test_case):
 	th_5 = atan2(sqrt(R_3_6[0, 2] * R_3_6[0, 2] + R_3_6[2, 2] * R_3_6[2, 2]), R_3_6[1, 2])
 	th_6 = atan2(-R_3_6[1, 1], R_3_6[1, 0])
 	
+	print ("Theta4:", th_4)
+	print ("Theta5:", th_5)
+	print ("Theta6:", th_6)
+
+
 	# set angles
 	theta1 = th_1
 	theta2 = th_2
@@ -253,15 +258,15 @@ def test_code(test_case):
 	## as the input and output the position of your end effector as your_ee = [x,y,z]
 
 	## (OPTIONAL) YOUR CODE HERE!
-	
+	EE = T_0_EE.evalf(subs={'q1':theta1, 'q2':theta2, 'q3':theta3, 'q4':theta4, 'q5':theta5, 'q6':theta6})
 
 	## End your code input for forward kinematics here!
 	########################################################################################
 
 	## For error analysis please set the following variables of your P_WC location and EE location in the format of [x,y,z]
 	
-	your_P_WC = [1, 1, 1]
-	your_ee = [1, 1, 1]
+	your_P_WC = [P_WC[0], P_WC[1], P_WC[2]]
+	your_ee = EE[:3, 3]
 	########################################################################################
 
 	## Error analysis
@@ -312,5 +317,5 @@ def test_code(test_case):
 
 if __name__ == "__main__":
     # Change test case number for different scenarios
-    test_case_number = 3
+    test_case_number = 1
     test_code(test_cases[test_case_number])
