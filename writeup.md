@@ -22,6 +22,12 @@
 [image3]: ./images/homogenous.jpg
 [image4]: ./images/wrist_center.jpg
 [image5]: ./images/sss.jpg
+[image6]: ./images/first_try.jpg
+[image7]: ./images/rotate_before_pickup.jpg
+[image8]: ./images/pick1.jpg
+
+[video1]: ./images/rotating.mov "Video"
+[video2]: ./images/release.mov "Video"
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -168,12 +174,37 @@ The definitions of the martices and dh table is placed outside the loop, as do n
 
 All inverse kinematic topics are then calculated inside the main loop.
 
-
 As calculating with matrices this can lead to enormous delays. It is clear to me, that this apporach does only lead to minimal performance gains, there could be several other methods like using other (performance optimized libraries like numpy).
 
 To get better results the focus should lie on error calcluation. By comparing the calculated position with the received ones from the pose i could do a much better error handling and therefor calculation of the expected position. 
 
 
+There were several issues while the Robotic Arm was moving. First the overall performance was very poor. There were many rotating iterations while moving to the goal:
+
+![alt text][image7]
+
+
+After it reached the goal it was not sure that it could grab the blue stick accordingly:
+
+![alt text][image6]
+
+In case it got it correct
+
+![alt text][image8]
+
+there were several related issues moving to the drop zone.
+First there were also many rotation cycles while moving:
+
+Here's a [link to the rotation cylcles](./images/rotating.mov)
+
+After it got to the drop zone there were also many cylces befor drop off.
+
+Here's a [link to the drop off](./images/release.mov)
+
+
+So there are definitively possibilities of improvement. The cycles seem to be related to the overall calculation. So it has to be possible, to switch off calculation/movement of special jonts and only the absolute relevant should move (not the whole construct). 
+
+For the correct pick up, the robot should be somehow able to "see" objects in sight so that he could measure the dimensions of the object and then plan its detailed movement according to it.
 
 
 
