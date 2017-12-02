@@ -206,7 +206,7 @@ def test_code(test_case):
 	T_5_6 = get_transformation_matrix(alpha5, a5, d6, q6).subs(s)
 	T_6_EE = get_transformation_matrix(alpha6, a6, d7, q7).subs(s)
 
-	T_0_EE = simplify(T_0_1 * T_1_2 * T_2_3 * T_3_4 * T_4_5 * T_5_6 * T_6_EE)
+	T_0_EE = T_0_1 * T_1_2 * T_2_3 * T_3_4 * T_4_5 * T_5_6 * T_6_EE
 
 	# EE poses
 	p_x, p_y, p_z, roll, pitch, yaw = get_ee_poses(req.poses[x])
@@ -317,5 +317,9 @@ def test_code(test_case):
 
 if __name__ == "__main__":
     # Change test case number for different scenarios
-    test_case_number = 1
-    test_code(test_cases[test_case_number])
+    #test_case_number = 1
+    #test_code(test_cases[test_case_number])
+    for i in range(1, 3):
+		print ("################# Test Case" + str(i) + " #################")
+		test_case_number = i
+		test_code(test_cases[test_case_number])
