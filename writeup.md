@@ -28,6 +28,7 @@
 
 [video1]: ./images/rotating.mov "Video"
 [video2]: ./images/release.mov "Video"
+[video3]: ./images/final.mov "Video"
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -206,6 +207,8 @@ For the correct pick up, the robot should be somehow able to "see" objects in si
 
 Update after first submission:
 In my first attempt i tried to substitute  those expressions/matrices with the received/calculated values inside the loop. Also all inverse kinematic topics were then calculated inside the main loop. This lead to the described issues above. I move the whole calculation outide the for loop (related to code from line 176ff). This lead to the desired results that my robot behaves like wanted.
+
+Here's a [link to the successful drop off](./images/final.mov)
 
 
 
