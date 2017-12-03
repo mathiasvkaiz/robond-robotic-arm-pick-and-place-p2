@@ -69,7 +69,7 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 5->6 | - pi/2 | 0 | 0 | q6
 6->EE | 0 | 0 | 0.303 | 0
 
-For deriving homogenous transforms i wrote a function (placed in file `IK_server.py` from line 58 on) called `get_transformation_matrix()` tha created the transformation matrix based on the input parameters `alpha, a, d and q`.
+For deriving homogenous transforms i wrote a function (placed in file `IK_server.py` from line 51 on) called `get_transformation_matrix()` tha created the transformation matrix based on the input parameters `alpha, a, d and q`.
 The function body looks like this
 
 ```python
@@ -120,14 +120,14 @@ A generalized homogenous transformation matrix between neighbor links is shown i
 The overall matrix from base_link to Grapper with respect to pose (position and orientation) is shown following:
 ![alt text][image3]
 
-The transformation matrix from base link to EE is derived in `IK_server.py` code line 170.
-Correction of Grabber (line 104)  and pose of Grabber (line 109) are applied in function `calculate_ee()` from line 90 on.
+The transformation matrix from base link to EE is derived in `IK_server.py` code line 152.
+Correction of Grabber (line 84)  and pose of Grabber (line 88) are applied in function `calculate_ee()` from line 70 on.
 
 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-I used the closed-form approach that is much faster than a numerical approach to get the joint angles by known pose of End Effector (Grabber). But it has it's limitations that only on cetrain cases this appraoch can be used.
+I used the closed-form approach that is much faster than a numerical approach to get the joint angles by known pose of End Effector (Grabber). But it has it's limitations that only on cetrain cases this approach can be used.
 
 There are two conditions of whose one must be satisfied:
 - Three neighboring joint axes intersect at a single point
@@ -149,12 +149,12 @@ The .303 is derived from the DH table as d7, meaning the distance between x-Axis
 
 Derivation of the first three thetas:
 - Theta 1: The wrist center needs to be projected onto the ground plane meaning set the z-coordinate = 0 (code line 131)
-- Theta 2, 3: Triangle in image below is calculation base for Theta2 and Theta3. It is assumed that z of wrist center equals 0 and that we have also link 2 and 3 projected onto the ground plane. Then i can calculate by cosine law the angles (code line 122 - 133)
+- Theta 2, 3: Triangle in image below is calculation base for Theta2 and Theta3. It is assumed that z of wrist center equals 0 and that we have also link 2 and 3 projected onto the ground plane. Then i can calculate by cosine law the angles (code line 96 - 109)
 
 Derivation of Theta 4 - 6:
-We are now coming to the Inverse Orientation problem. As the overall RPY (Roll, Pitch Yaw) rotation between base link and Grapper is equal to the overall product of each links i can inverse the matrix for the first three joints and multiply it with the RPY (code lines 226 - 228).
+We are now coming to the Inverse Orientation problem. As the overall RPY (Roll, Pitch Yaw) rotation between base link and Grapper is equal to the overall product of each links i can inverse the matrix for the first three joints and multiply it with the RPY (code lines 187 - 188).
 
-Based on Euler Angles from a Rotation Matrix section in the Lesson and the walkthrough i got the Thetas 4 - 6 (code line 231 - 234)
+Based on Euler Angles from a Rotation Matrix section in the Lesson and the walkthrough i got the Thetas 4 - 6 (code line 191 - 193)
 
 To avoid multiple solutions i used the atan2 function so that signs can be regarded and the correct quadrant can be derived.
 
@@ -170,9 +170,7 @@ I used functional programming techniques and defined several methods for getting
 
 I also put the calculation and error correction of the End Effector rotation matrix (including the wrist center calculation and Thetas 1-3) in one function `calculate_ee()` as these are all related to forward kinematics.
 
-The definitions of the martices and dh table is placed outside the loop, as do need to be initialized only once. Inside the loop i substitue then those expressions/matrices with the received/calculated values.
-
-All inverse kinematic topics are then calculated inside the main loop.
+The definitions of the martices and dh table is placed outside the loop, as do need to be initialized only once. 
 
 As calculating with matrices this can lead to enormous delays. It is clear to me, that this apporach does only lead to minimal performance gains, there could be several other methods like using other (performance optimized libraries like numpy).
 
@@ -205,6 +203,9 @@ Here's a [link to the drop off](./images/release.mov)
 So there are definitively possibilities of improvement. The cycles seem to be related to the overall calculation. So it has to be possible, to switch off calculation/movement of special jonts and only the absolute relevant should move (not the whole construct). 
 
 For the correct pick up, the robot should be somehow able to "see" objects in sight so that he could measure the dimensions of the object and then plan its detailed movement according to it.
+
+Update after first submission:
+In my first attempt i tried to substitute  those expressions/matrices with the received/calculated values inside the loop. Also all inverse kinematic topics were then calculated inside the main loop. This lead to the described issues above. I move the whole calculation outide the for loop (related to code from line 176ff). This lead to the desired results that my robot behaves like wanted.
 
 
 
