@@ -85,7 +85,7 @@ def calculate_ee(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
 
 
     # Rotation matrix of End Effector
-    R_EE = R_EE * error # comepnsate errors on it
+    R_EE = R_EE * error # compensate errors on it
     R_EE = R_EE.subs({'r': roll, 'p': pitch, 'y': yaw})
 
     # Position matrix of wrist center 
@@ -93,12 +93,13 @@ def calculate_ee(R_EE, p_x, p_y, p_z, roll, pitch, yaw):
   
     
     # SSS triangle sides and angles
-    a = 1.501
+    a = 1.50
     b_xy = sqrt(P_WC[0] * P_WC[0] + P_WC[1] * P_WC[1]) - 0.35
     b_z = P_WC[2] - 0.75
     b = sqrt(pow((b_xy), 2) + pow((b_z), 2))
     c = 1.25 # Length of joint 1 to 2.
 
+    # Triangle angles
     angle_a = acos((b * b + c * c - a * a) / (2 * b * c))
     angle_b = acos((-b * b + c * c + a * a) / (2 * a * c))
     
@@ -171,30 +172,30 @@ def handle_calculate_IK(req):
                     req.poses[x].orientation.z, req.poses[x].orientation.w])
      
             ### Your IK code here 
-            # Compensate for rotation discrepancy between DH parameters and Gazebo
-            R_x = get_rotation_matrix('roll', r)
-            R_y = get_rotation_matrix('pitch', p)
-            R_z = get_rotation_matrix('yaw', y)
-            
-            # Initialize rotation matrix of End Effector
-            R_EE = R_z * R_y * R_x
-            
-            # Calculate ee values and correct rotation matrix of EE
-            R_EE, P_WC, theta1, theta2, theta3 = calculate_ee(R_EE, px, py, pz, roll, pitch, yaw)
-
-            # Inverse kinematic rotation matrix from wraist to EE
-            R_0_3 = R_0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
-            R_3_6 = R_0_3.T * R_EE
-
-            # Angles from rotation matrix
-            theta4 = atan2(R_3_6[2, 2], -R_3_6[0, 2])    
-            theta5 = atan2(sqrt(R_3_6[0, 2] * R_3_6[0, 2] + R_3_6[2, 2] * R_3_6[2, 2]), R_3_6[1, 2])
-            theta6 = atan2(-R_3_6[1, 1], R_3_6[1, 0])
+        # Compensate for rotation discrepancy between DH parameters and Gazebo
+        R_x = get_rotation_matrix('roll', r)
+        R_y = get_rotation_matrix('pitch', p)
+        R_z = get_rotation_matrix('yaw', y)
         
-            # Populate response for the IK request
-            # In the next line replace theta1,theta2...,theta6 by your joint angle variables
-            joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
-            joint_trajectory_list.append(joint_trajectory_point)
+        # Initialize rotation matrix of End Effector
+        R_EE = R_z * R_y * R_x
+        
+        # Calculate ee values and correct rotation matrix of EE
+        R_EE, P_WC, theta1, theta2, theta3 = calculate_ee(R_EE, px, py, pz, roll, pitch, yaw)
+
+        # Inverse kinematic rotation matrix from wraist to EE
+        R_0_3 = R_0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
+        R_3_6 = R_0_3.T * R_EE
+
+        # Angles from rotation matrix
+        theta4 = atan2(R_3_6[2, 2], -R_3_6[0, 2])    
+        theta5 = atan2(sqrt(R_3_6[0, 2] * R_3_6[0, 2] + R_3_6[2, 2] * R_3_6[2, 2]), R_3_6[1, 2])
+        theta6 = atan2(-R_3_6[1, 1], R_3_6[1, 0])
+    
+        # Populate response for the IK request
+        # In the next line replace theta1,theta2...,theta6 by your joint angle variables
+        joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
+        joint_trajectory_list.append(joint_trajectory_point)
 
         rospy.loginfo("length of Joint Trajectory List: %s" % len(joint_trajectory_list))
         return CalculateIKResponse(joint_trajectory_list)
